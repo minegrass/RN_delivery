@@ -1,8 +1,18 @@
 import { View, Text, ScrollView } from 'react-native'
-import React from 'react'
+import React, { useLayoutEffect, useState } from 'react'
 import CategoryCard from './categoryCard'
-
+import { CMS_DOMAIN } from '@env'
 export default function categories() {
+
+    const [categoriesData, setCategoriesData] = useState([])
+
+    useLayoutEffect(() => {
+        fetch(`${CMS_DOMAIN}/api`).then((res) => res.json()).then((data) => {
+            console.log(data);
+        })
+    }, [])
+
+
     return (
         <ScrollView
             className="flex-row"
