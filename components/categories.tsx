@@ -1,32 +1,65 @@
-import { View, Text, ScrollView } from 'react-native'
-import React, { useLayoutEffect, useState } from 'react'
-import CategoryCard from './categoryCard'
-import { CMS_DOMAIN } from '@env'
+import { View, Text, ScrollView } from "react-native";
+import React, { useLayoutEffect, useState } from "react";
+import CategoryCard from "./categoryCard";
+import { CMS_DOMAIN } from "@env";
 export default function categories() {
+  const [categoriesData, setCategoriesData] = useState([
+    {
+      id: 1,
+      attributes: {
+        type: "test",
+        Image: {
+          data: [
+            {
+              attributes: { name: "testtt", url: "https://picsum.photos/200" },
+            },
+          ],
+        },
+      },
+    },
+    {
+      id: 2,
+      attributes: {
+        type: "test",
+        Image: {
+          data: [
+            {
+              attributes: { name: "testtt", url: "https://picsum.photos/200" },
+            },
+          ],
+        },
+      },
+    },
+  ]);
 
-    const [categoriesData, setCategoriesData] = useState([])
+  useLayoutEffect(() => {
+    fetch(`${CMS_DOMAIN}/api/types?populate=*`)
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        setCategoriesData(data.data);
+      });
+  }, []);
 
-    useLayoutEffect(() => {
-        fetch(`${CMS_DOMAIN}/api`).then((res) => res.json()).then((data) => {
-            console.log(data);
-        })
-    }, [])
-
-
-    return (
-        <ScrollView
-            className="flex-row"
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={{
-                paddingHorizontal: 15,
-                paddingTop: 10,
-            }}>
-            <CategoryCard imgUrl="https://links.papareact.com/gn7" title="test" />
-            <CategoryCard imgUrl="https://links.papareact.com/gn7" title="test1" />
-            <CategoryCard imgUrl="https://links.papareact.com/gn7" title="test2" />
-            <CategoryCard imgUrl="https://links.papareact.com/gn7" title="test3" />
-            <CategoryCard imgUrl="https://links.papareact.com/gn7" title="test4" />
-        </ScrollView>
-    )
+  return (
+    <ScrollView
+      className="flex-row bg-white-500"
+      horizontal
+      showsHorizontalScrollIndicator={false}
+      contentContainerStyle={{
+        paddingHorizontal: 15,
+        paddingTop: 10,
+      }}
+    >
+      {categoriesData.map((item) => {
+        return (
+          <CategoryCard
+            key={item.id}
+            imgUrl={`${CMS_DOMAIN}${item.attributes.Image.data[0].attributes.url}`}
+            title={item.attributes.type}
+          />
+        );
+      })}
+    </ScrollView>
+  );
 }
