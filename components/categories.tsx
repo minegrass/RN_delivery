@@ -9,11 +9,9 @@ export default function categories() {
       attributes: {
         type: "test",
         Image: {
-          data: [
-            {
-              attributes: { name: "testtt", url: "https://picsum.photos/200" },
-            },
-          ],
+          data: {
+            attributes: { name: "testtt", url: "https://picsum.photos/200" },
+          },
         },
       },
     },
@@ -22,11 +20,9 @@ export default function categories() {
       attributes: {
         type: "test",
         Image: {
-          data: [
-            {
-              attributes: { name: "testtt", url: "https://picsum.photos/200" },
-            },
-          ],
+          data: {
+            attributes: { name: "testtt", url: "https://picsum.photos/200" },
+          },
         },
       },
     },
@@ -36,7 +32,7 @@ export default function categories() {
     fetch(`${CMS_DOMAIN}/api/types?populate=*`)
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
+        // console.log(data);
         setCategoriesData(data.data);
       });
   }, []);
@@ -55,7 +51,7 @@ export default function categories() {
         return (
           <CategoryCard
             key={item.id}
-            imgUrl={`${CMS_DOMAIN}${item.attributes.Image.data[0].attributes.url}`}
+            imgUrl={`${CMS_DOMAIN}${item.attributes.Image.data.attributes.url}`}
             title={item.attributes.type}
           />
         );
